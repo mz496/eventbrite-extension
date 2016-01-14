@@ -11,4 +11,16 @@ ReactDOM.render(
   document.getElementById("events-display")
 );
 
-$("#location-picker").locationpicker();
+$("document").ready(function() {
+  console.log($("#picker"));
+  $("#picker").locationpicker({
+    location: {latitude: 46.15, longitude: 2.747},
+    radius: 1500,
+    inputBinding: {
+      latitudeInput: $("#picker-lat"),
+      longitudeInput: $("#picker-long"),
+      radiusInput: $("#picker-radius"),
+      locationNameInput: $("#picker-address")
+    }
+  });
+});

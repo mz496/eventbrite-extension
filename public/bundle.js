@@ -8,13 +8,18 @@ module.exports = React.createClass({displayName: "exports",
 });
 
 },{}],2:[function(require,module,exports){
-//var ThingTwo = require("./thing_two.jsx");
-
 module.exports = React.createClass({displayName: "exports",
   render: function() {
     return (
       React.createElement("div", null, 
-        React.createElement("h1", null, "Locator")
+        React.createElement("p", null, "Enter an address and a radius in miles to find popular events near you! We've attempted to fill it in based on your location."), 
+        React.createElement("form", null, 
+          "Address: ", React.createElement("input", {type: "text", id: "picker-address"}), 
+          "Radius (miles): ", React.createElement("input", {type: "text", id: "picker-radius"}), 
+          "Lat: ", React.createElement("input", {type: "text", id: "picker-lat"}), 
+          "Long: ", React.createElement("input", {type: "text", id: "picker-long"})
+        ), 
+        React.createElement("div", {id: "picker"})
       )
     );
   }
@@ -34,6 +39,18 @@ ReactDOM.render(
   document.getElementById("events-display")
 );
 
-$("#location-picker").locationpicker();
+$("document").ready(function() {
+  console.log($("#picker"));
+  $("#picker").locationpicker({
+    location: {latitude: 46.15, longitude: 2.747},
+    radius: 1500,
+    inputBinding: {
+      latitudeInput: $("#picker-lat"),
+      longitudeInput: $("#picker-long"),
+      radiusInput: $("#picker-radius"),
+      locationNameInput: $("#picker-address")
+    }
+  });
+});
 
 },{"./client/events_display.jsx":1,"./client/locator.jsx":2}]},{},[3]);
