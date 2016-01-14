@@ -1,6 +1,14 @@
-var ThingOne = require("./client/thing_one.jsx")
+var Locator = require("./client/locator.jsx");
+var EventsDisplay = require("./client/events_display.jsx");
 
 ReactDOM.render(
-  <ThingOne />,
-  document.getElementById('content')
+  <Locator />,
+  document.getElementById("locator")
 );
+
+ReactDOM.render(
+  <EventsDisplay />,
+  document.getElementById("events-display")
+);
+
+$("#location-picker").locationpicker();
