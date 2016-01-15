@@ -50,7 +50,7 @@ var EventsDisplay = React.createClass({
 });
 
 var condenseEvent = function(event) {
-  var fmt = "ddd, MMM D h:mm A"
+  var fmt = "ddd, MMM D h:mm A";
   return (
     <EventTableEntry
       eventName={event.name.text}
@@ -61,7 +61,7 @@ var condenseEvent = function(event) {
 }
 
 var noMoreEvents = function() {
-  return pageCount === page;
+  return pageCount >= page;
 }
 
 

@@ -1,3 +1,10 @@
+/* locator.jsx
+ * Creates the interface for the location picker controls
+ */
+
+var pickerRadiusID = "picker-radius";
+var pickerAddressID = "picker-address";
+
 var Locator = React.createClass({
   render: function() {
     return (
@@ -7,15 +14,15 @@ var Locator = React.createClass({
         */}<input
           type="number"
           min="1"
-          id="picker-radius"/> {/*
+          id={pickerRadiusID}/> {/*
         
         */}miles of {/*
         
         */}<input
           type="text"
-          placeholder="address"
+          placeholder="Address"
           size="40"
-          id="picker-address"/></p>
+          id={pickerAddressID}/></p>
 
         <div id="picker"></div>
       </div>
@@ -30,5 +37,8 @@ var renderLocator = function() {
   );
 };
 
+// Expose the following variables for initializing and rendering from main
 module.exports = Locator;
 module.exports.renderLocator = renderLocator;
+module.exports.pickerRadiusID = pickerRadiusID;
+module.exports.pickerAddressID = pickerAddressID;
