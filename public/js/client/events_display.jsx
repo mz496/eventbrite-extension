@@ -1,10 +1,8 @@
-var token = "5UTR4NCSQASRGEP5ALUO";
-var index = 0;
-var object_count = 0;
-var perPage = 50;
-var maxDisplayed = 5;
+var page = 1;
 var events = [];
-var visibleEvents = [];
+var recordAPIcall = "";
+
+
 
 var EventTableEntry = React.createClass({
   render: function() {
@@ -27,24 +25,24 @@ var EventTableEntry = React.createClass({
 });
 
 var EventsDisplay = React.createClass({
-  backPage: function() {
-    if (index - maxDisplayed >= 0) {
-      index -= maxDisplayed;
-    }
-    visibleEvents = events.slice(index, index+maxDisplayed);
-  },
   nextPage: function() {
-    if (events.)
+    page += 1;
+    getEvents(recordAPIcall, page);
   },
   render: function() {
     return (
+      <div>
       <table>
         <tbody>
-          {visibleEvents}
+          {events}
         </tbody>
       </table>
-      <a onClick={this.backPage}>back</a>
-      <a onClick={this.nextPage}>next</a>
+      <a
+        className="load-more"
+        onClick={this.nextPage}>
+        Load more
+      </a>
+      </div>
     );
   }
 });
@@ -60,32 +58,13 @@ var condenseEvent = function(event) {
   );
 }
 
-var convertIndexToPage = function(index, perPage) {
-  if (perPage !== 0) {
-    return Math.floor(index / perPage) + 1;
-  }
-}
-var getIndexWithinPage = function(index, perPage) {
-  if (perPage !== 0) {
-    return index % perPage;
-  }
-}
 
 
-
-var getEvents = function(latitude, longitude, radius) {
-  $.get("https://www.eventbriteapi.com/v3/events/search/?" +
-    "&popular=on" +
-    "&location.latitude=" + latitude +
-    "&location.longitude=" + longitude +
-    "&location.within=" + radius + "mi" +
-    "&start_date.keyword=this_weekend" +
-    "&page=" + convertIndexToPage(index, perPage) +
-    "&token=" + token,
+var getEvents = function(APIcall, page) {
+  recordAPIcall = APIcall;
+  $.get(APIcall + "&page=" + page,
   function(response) {
-    events = response.events.map(condenseEvent);
-    object_count = response.pagination.object_count;
-    visibleEvents = events.slice(index, index+maxDisplayed);
+    events = events.concat(response.events.map(condenseEvent));
     renderEventsDisplay();
   });
 };

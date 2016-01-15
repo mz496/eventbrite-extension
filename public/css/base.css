@@ -24,16 +24,23 @@ input {
   font-weight: 700;
 }
 
-table a {
+.load-more {
+  color: #00A1EE;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-align: center;
   display: block;
+  padding: 10px;
+  cursor: pointer;
 }
 
-a {
+table a {
+  display: block;
   padding: 5px;
   text-decoration: none;
 }
 
-a:hover {
+table a:hover {
   background-color: rgba(0,0,0,0.1);
 }
 
