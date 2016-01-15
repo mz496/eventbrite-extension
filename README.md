@@ -1,10 +1,3 @@
-# react-browserify-template
+# Eventbrite Chrome Extension
 
-React + Browserify template.
-
-To build the project:
-```
-source build.sh
-```
-
-Firefox required. Chrome doesn't load the external JS files.
+Displays nearby popular events pulled from the Eventbrite API for a given location.
