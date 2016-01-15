@@ -4,7 +4,7 @@ body {
   margin: 0;
   padding: 0 30px;
   width: 400px;
-  height: 600px;
+  height: 580px;
   font-size: 14px;
 }
 
@@ -41,7 +41,7 @@ a:hover {
 
 #picker {
   width: 100%;
-  height: 240px;
+  height: 250px;
   margin: 0 auto;
 }
 
@@ -52,6 +52,6 @@ a:hover {
 #events-display {
   border: 1px solid rgba(0,0,0,0.2);
   width: 100%;
-  height: 270px;
+  height: 250px;
   overflow-y: scroll;
 }

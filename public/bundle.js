@@ -115,7 +115,7 @@ var EventsDisplay = require("./client/events_display.jsx");
 
 Locator.renderLocator();
 
-EventsDisplay.renderEventsDisplay();
+//EventsDisplay.renderEventsDisplay();
 
 
 
