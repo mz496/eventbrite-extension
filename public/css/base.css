@@ -1,126 +1,57 @@
 body {
   background: #fff;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 15px;
-  line-height: 1.7;
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
   margin: 0;
-  padding: 30px;
+  padding: 0 30px;
   width: 400px;
+  height: 600px;
+  font-size: 14px;
+}
+
+input {
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
+}
+
+.event-time {
+  color: #666A73;
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 12px;
+}
+
+.event-title {
+  color: #282C35;
+  font-weight: 700;
+}
+
+table a {
+  display: block;
 }
 
 a {
-  color: #4183c4;
+  padding: 5px;
   text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
+  background-color: rgba(0,0,0,0.1);
 }
-
-code {
-  background-color: #f8f8f8;
-  border: 1px solid #ddd;
-  border-radius: 3px;
-  font-family: "Bitstream Vera Sans Mono", Consolas, Courier, monospace;
-  font-size: 12px;
-  margin: 0 2px;
-  padding: 0px 5px;
-}
-
-/*h1, h2, h3, h4 {
-  font-weight: bold;
-  margin: 0 0 15px;
-  padding: 0;
-}
-
-h1 {
-  border-bottom: 1px solid #ddd;
-  font-size: 2.5em;
-  font-weight: bold;
-  margin: 0 0 15px;
-  padding: 0;
-}
-
-h2 {
-  border-bottom: 1px solid #eee;
-  font-size: 2em;
-}
-
-h3 {
-  font-size: 1.5em;
-}
-
-h4 {
-  font-size: 1.2em;
-}
-
-p, ul {
-  margin: 15px 0;
-}
-
-ul {
-  padding-left: 30px;
-}
-
-form {
-  text-align: center;
-}
-
-.sidebar {
-  width: 20%;
-  position: fixed;
-  left: 0;
-}
-
-.main {
-  width: 80%;
-  position: absolute;
-  left: 20%;
-}
-
-textarea {
-  height: 30em;
-}
-
-@media screen and (max-width: 960px) {
-  .sidebar {
-    width: 100%;
-    height: 30%;
-    position: fixed;
-    left: 0;
-    top: 0;
-  }
-
-  .main {
-    width: 90%;
-    position: absolute;
-    left: 5%;
-    top: 30%;
-    height: 70%;
-    overflow-y: scroll;
-  }
-
-  textarea {
-    height: 100%;
-  }
-}
-*/
-
-
-
 
 
 
 #picker {
-  width: 400px;
-  height: 300px;
+  width: 100%;
+  height: 240px;
+  margin: 0 auto;
 }
+
 #picker-radius {
   width: 3em;
 }
-.event-name-head {
-  width: 65%;
-}
-.event-time-head {
-  width: 35%;
+
+#events-display {
+  border: 1px solid rgba(0,0,0,0.2);
+  width: 100%;
+  height: 270px;
+  overflow-y: scroll;
 }

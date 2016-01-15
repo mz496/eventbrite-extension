@@ -1,22 +1,23 @@
 var Locator = require("./client/locator.jsx");
 var EventsDisplay = require("./client/events_display.jsx");
 
-ReactDOM.render(
-  <Locator />,
-  document.getElementById("locator")
-);
+Locator.renderLocator();
 
-ReactDOM.render(
-  <EventsDisplay />,
-  document.getElementById("events-display")
-);
+EventsDisplay.renderEventsDisplay();
 
 
 
-var defaultLat = 26.23447;
-var defaultLong = -80.2644087;
-var defaultRadius = 200;
+var defaultLat = 37.782380;
+var defaultLong = -122.405225;
+var defaultRadius = 3;
 var defaultZoom = 12;
+
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    defaultLat = position.coords.latitude;
+    defaultLong = position.coords.longitude;
+  });
+}
 
 EventsDisplay.getEvents(defaultLat, defaultLong, defaultRadius);
 

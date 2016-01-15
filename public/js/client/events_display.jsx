@@ -1,22 +1,18 @@
-var EventTableHeader = React.createClass({
-  render: function() {
-    return (
-      <thead>
-        <tr>
-          <th className="event-name-head">Event name</th>
-          <th className="event-time-head">Time</th>
-        </tr>
-      </thead>
-    );
-  }
-});
-
 var EventTableEntry = React.createClass({
   render: function() {
     return (
       <tr>
-        <td><a href={this.props.url}>{this.props.eventName}</a></td>
-        <td>{this.props.timeRange}</td>
+        <td>
+        <a href={this.props.url}>
+          <span className="event-time">
+            {this.props.timeRange}
+          </span>
+          <br />
+          <span className="event-title">
+            {this.props.eventName}
+          </span>
+        </a>
+        </td>
       </tr>
     );
   }
@@ -28,7 +24,6 @@ var EventsDisplay = React.createClass({
   render: function() {
     return (
       <table>
-        <EventTableHeader />
         <tbody>
           {events}
         </tbody>
@@ -38,12 +33,13 @@ var EventsDisplay = React.createClass({
 });
 
 var condenseEvent = function(event) {
-  var fmt = "ddd, MMM DD, h:mma"
+  var fmt = "ddd, MMM D h:mm A"
   return (
     <EventTableEntry
       eventName={event.name.text}
       url={event.url}
-      timeRange={moment(event.start.local).format(fmt) + " to\n" + moment(event.end.local).format(fmt)} />
+      timeRange={moment(event.start.local).format(fmt)}
+      key={event.name.text} />
   );
 }
 
@@ -61,11 +57,11 @@ var getEvents = function(latitude, longitude, radius) {
     "&token=" + token,
   function(response) {
     events = response.events.map(condenseEvent);
-    renderEvents(response);
+    renderEventsDisplay(response);
   });
 };
 
-var renderEvents = function(eventObj) {
+var renderEventsDisplay = function(eventObj) {
   ReactDOM.render(
     <EventsDisplay />,
     document.getElementById("events-display")
@@ -74,3 +70,4 @@ var renderEvents = function(eventObj) {
 
 module.exports = EventsDisplay;
 module.exports.getEvents = getEvents;
+module.exports.renderEventsDisplay = renderEventsDisplay;
