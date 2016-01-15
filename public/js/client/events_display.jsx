@@ -1,4 +1,5 @@
 var page = 1;
+var pageCount = 1;
 var events = [];
 var recordAPIcall = "";
 
@@ -38,6 +39,7 @@ var EventsDisplay = React.createClass({
         </tbody>
       </table>
       <a
+        style={{"display": noMoreEvents() ? "none" : "block"}}
         className="load-more"
         onClick={this.nextPage}>
         Load more
@@ -58,12 +60,16 @@ var condenseEvent = function(event) {
   );
 }
 
+var noMoreEvents = function() {
+  return pageCount === page;
+}
 
 
 var getEvents = function(APIcall, page) {
   recordAPIcall = APIcall;
   $.get(APIcall + "&page=" + page,
   function(response) {
+    pageCount = response.pagination.page_count;
     events = events.concat(response.events.map(condenseEvent));
     renderEventsDisplay();
   });
@@ -76,6 +82,14 @@ var renderEventsDisplay = function() {
   );
 };
 
+var flushValues = function() {
+  page = 1;
+  pageCount = 1;
+  events = [];
+  recordAPIcall = "";
+}
+
 // Expose the following functions to render and refresh the events display
 module.exports = EventsDisplay;
 module.exports.getEvents = getEvents;
+module.exports.flushValues = flushValues;

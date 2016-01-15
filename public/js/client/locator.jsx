@@ -14,7 +14,7 @@ var Locator = React.createClass({
         */}<input
           type="text"
           placeholder="address"
-          size="35"
+          size="40"
           id="picker-address"/></p>
 
         <div id="picker"></div>

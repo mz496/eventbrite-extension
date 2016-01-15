@@ -1,5 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var page = 1;
+var pageCount = 1;
 var events = [];
 var recordAPIcall = "";
 
@@ -39,6 +40,7 @@ var EventsDisplay = React.createClass({displayName: "EventsDisplay",
         )
       ), 
       React.createElement("a", {
+        style: {"display": noMoreEvents() ? "none" : "block"}, 
         className: "load-more", 
         onClick: this.nextPage}, 
         "Load more"
@@ -59,12 +61,16 @@ var condenseEvent = function(event) {
   );
 }
 
+var noMoreEvents = function() {
+  return pageCount === page;
+}
 
 
 var getEvents = function(APIcall, page) {
   recordAPIcall = APIcall;
   $.get(APIcall + "&page=" + page,
   function(response) {
+    pageCount = response.pagination.page_count;
     events = events.concat(response.events.map(condenseEvent));
     renderEventsDisplay();
   });
@@ -77,9 +83,17 @@ var renderEventsDisplay = function() {
   );
 };
 
+var flushValues = function() {
+  page = 1;
+  pageCount = 1;
+  events = [];
+  recordAPIcall = "";
+}
+
 // Expose the following functions to render and refresh the events display
 module.exports = EventsDisplay;
 module.exports.getEvents = getEvents;
+module.exports.flushValues = flushValues;
 
 },{}],2:[function(require,module,exports){
 var Locator = React.createClass({displayName: "Locator",
@@ -98,7 +112,7 @@ var Locator = React.createClass({displayName: "Locator",
         */React.createElement("input", {
           type: "text", 
           placeholder: "address", 
-          size: "35", 
+          size: "40", 
           id: "picker-address"})), 
 
         React.createElement("div", {id: "picker"})
@@ -129,6 +143,11 @@ var token = "5UTR4NCSQASRGEP5ALUO";
 
 Locator.renderLocator();
 
+var isPositiveInteger = function(str) {
+  var n = ~~Number(str);
+  return String(n) === str && n > 0;
+}
+
 $("#picker").locationpicker({
   location: {latitude: defaultLat, longitude: defaultLong},
   radius: defaultRadius,
@@ -141,9 +160,13 @@ $("#picker").locationpicker({
   },
   enableAutocomplete: true,
   onchanged: function(currentLocation, radius, isMarkerDropped) {
-    if (!isNaN(radius) && radius > 0) {
+    if (isPositiveInteger(radius)) {
+      EventsDisplay.flushValues();
       EventsDisplay.getEvents(
-        getAPIcall(defaultLat, defaultLong, defaultRadius),
+        getAPIcall(
+          currentLocation.latitude,
+          currentLocation.longitude,
+          radius),
         1);
     }
   }

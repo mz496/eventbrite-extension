@@ -1,16 +1,22 @@
 body {
-  background: #fff;
+  background: #F8F8FA;
   font-family: "Roboto", Helvetica, Arial, sans-serif;
   margin: 0;
-  padding: 0 30px;
+  padding: 0 25px;
   width: 400px;
   height: 580px;
   font-size: 14px;
+  line-height: 1.2;
 }
 
 input {
+  background: #F8F8FA;
   font-family: "Roboto", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  border: 1px solid rgba(0,0,0,0.2);
 }
+
+
 
 .event-time {
   color: #666A73;
@@ -34,6 +40,8 @@ input {
   cursor: pointer;
 }
 
+
+
 table a {
   display: block;
   padding: 5px;
@@ -53,7 +61,7 @@ table a:hover {
 }
 
 #picker-radius {
-  width: 3em;
+  width: 2em;
 }
 
 #events-display {

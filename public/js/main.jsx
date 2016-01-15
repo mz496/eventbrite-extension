@@ -9,6 +9,11 @@ var token = "5UTR4NCSQASRGEP5ALUO";
 
 Locator.renderLocator();
 
+var isPositiveInteger = function(str) {
+  var n = ~~Number(str);
+  return String(n) === str && n > 0;
+}
+
 $("#picker").locationpicker({
   location: {latitude: defaultLat, longitude: defaultLong},
   radius: defaultRadius,
@@ -21,9 +26,13 @@ $("#picker").locationpicker({
   },
   enableAutocomplete: true,
   onchanged: function(currentLocation, radius, isMarkerDropped) {
-    if (!isNaN(radius) && radius > 0) {
+    if (isPositiveInteger(radius)) {
+      EventsDisplay.flushValues();
       EventsDisplay.getEvents(
-        getAPIcall(defaultLat, defaultLong, defaultRadius),
+        getAPIcall(
+          currentLocation.latitude,
+          currentLocation.longitude,
+          radius),
         1);
     }
   }
