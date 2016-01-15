@@ -11,16 +11,32 @@ ReactDOM.render(
   document.getElementById("events-display")
 );
 
-$("document").ready(function() {
-  console.log($("#picker"));
-  $("#picker").locationpicker({
-    location: {latitude: 46.15, longitude: 2.747},
-    radius: 1500,
-    inputBinding: {
-      latitudeInput: $("#picker-lat"),
-      longitudeInput: $("#picker-long"),
-      radiusInput: $("#picker-radius"),
-      locationNameInput: $("#picker-address")
+
+
+var defaultLat = 26.23447;
+var defaultLong = -80.2644087;
+var defaultRadius = 200;
+var defaultZoom = 12;
+
+EventsDisplay.getEvents(defaultLat, defaultLong, defaultRadius);
+
+$("#picker").locationpicker({
+  location: {latitude: defaultLat, longitude: defaultLong},
+  radius: defaultRadius,
+  zoom: defaultZoom,
+  inputBinding: {
+    latitudeInput: $("#picker-lat"),
+    longitudeInput: $("#picker-long"),
+    radiusInput: $("#picker-radius"),
+    locationNameInput: $("#picker-address")
+  },
+  enableAutocomplete: true,
+  onchanged: function(currentLocation, radius, isMarkerDropped) {
+    if (!isNaN(radius) && radius > 0) {
+      EventsDisplay.getEvents(
+        currentLocation.latitude,
+        currentLocation.longitude,
+        radius);
     }
-  });
+  }
 });

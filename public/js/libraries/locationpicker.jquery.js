@@ -61,7 +61,7 @@
                     fillOpacity: 0.20
                 }, options);
                 options.map = gmapContext.map;
-                options.radius = radius;
+                options.radius = radius * 1609.34;
                 options.center = center;
                 gmapContext.circle = new google.maps.Circle(options);
                 return gmapContext.circle;

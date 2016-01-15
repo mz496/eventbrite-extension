@@ -5,7 +5,7 @@ body {
   line-height: 1.7;
   margin: 0;
   padding: 30px;
-  width: 500px;
+  width: 400px;
 }
 
 a {
@@ -27,7 +27,7 @@ code {
   padding: 0px 5px;
 }
 
-h1, h2, h3, h4 {
+/*h1, h2, h3, h4 {
   font-weight: bold;
   margin: 0 0 15px;
   padding: 0;
@@ -104,7 +104,7 @@ textarea {
     height: 100%;
   }
 }
-
+*/
 
 
 
@@ -112,6 +112,15 @@ textarea {
 
 
 #picker {
-  width: 500px;
-  height: 400px;
+  width: 400px;
+  height: 300px;
+}
+#picker-radius {
+  width: 3em;
+}
+.event-name-head {
+  width: 65%;
+}
+.event-time-head {
+  width: 35%;
 }
