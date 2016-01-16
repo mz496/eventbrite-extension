@@ -26,18 +26,9 @@ var token = "5UTR4NCSQASRGEP5ALUO";
 
 Locator.renderLocator();
 
-// Attempt to get user's location automatically
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(function(position) {
-    defaultLat = position.coords.latitude;
-    defaultLong = position.coords.longitude;
-  });
-}
-
 // Returns true if str represents a positive integer, false otherwise
 var isPositiveInteger = function(str) {
-  var n = ~~Number(str);
-  return String(n) === str && n > 0;
+  return /^[1-9]\d*$/.test(str);
 }
 
 // Constructs the Eventbrite API call

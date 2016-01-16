@@ -8,19 +8,15 @@ var recordAPIcall = "";
 var EventTableEntry = React.createClass({
   render: function() {
     return (
-      <tr>
-        <td>
-        <a href={this.props.url}>
-          <span className="event-time">
-            {this.props.timeRange}
-          </span>
-          <br />
-          <span className="event-title">
-            {this.props.eventName}
-          </span>
+        <div>
+        <span className="event-time">
+          {this.props.timeRange}
+        </span>
+        <br />
+        <a href={this.props.url} className="event-title">
+          {this.props.eventName}
         </a>
-        </td>
-      </tr>
+        </div>
     );
   }
 });
@@ -33,17 +29,20 @@ var EventsDisplay = React.createClass({
   render: function() {
     return (
       <div>
-      <table>
-        <tbody>
-          {events}
-        </tbody>
-      </table>
+
+      {events}
       <a
         style={{"display": noMoreEvents() ? "none" : "block"}}
         className="load-more"
         onClick={this.nextPage}>
         Load more
       </a>
+      <div
+        style={{"display": noMoreEvents() ? "block" : "none"}}
+        className="no-more-events">
+        (No more events)
+      </div>
+      
       </div>
     );
   }
@@ -61,7 +60,7 @@ var condenseEvent = function(event) {
 }
 
 var noMoreEvents = function() {
-  return pageCount >= page;
+  return pageCount === 0 || pageCount >= page;
 }
 
 
@@ -69,6 +68,7 @@ var getEvents = function(APIcall, page) {
   recordAPIcall = APIcall;
   $.get(APIcall + "&page=" + page,
   function(response) {
+    console.log(response);
     pageCount = response.pagination.page_count;
     events = events.concat(response.events.map(condenseEvent));
     renderEventsDisplay();

@@ -40,6 +40,13 @@ input {
   cursor: pointer;
 }
 
+.no-more-events {
+  color: rgba(0,0,0,0.2);
+  text-align: center;
+  text-transform: uppercase;
+  padding: 10px 0;
+}
+
 
 
 table a {

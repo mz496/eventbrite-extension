@@ -9,19 +9,15 @@ var recordAPIcall = "";
 var EventTableEntry = React.createClass({displayName: "EventTableEntry",
   render: function() {
     return (
-      React.createElement("tr", null, 
-        React.createElement("td", null, 
-        React.createElement("a", {href: this.props.url}, 
-          React.createElement("span", {className: "event-time"}, 
-            this.props.timeRange
-          ), 
-          React.createElement("br", null), 
-          React.createElement("span", {className: "event-title"}, 
-            this.props.eventName
-          )
+        React.createElement("div", null, 
+        React.createElement("span", {className: "event-time"}, 
+          this.props.timeRange
+        ), 
+        React.createElement("br", null), 
+        React.createElement("a", {href: this.props.url, className: "event-title"}, 
+          this.props.eventName
         )
         )
-      )
     );
   }
 });
@@ -34,24 +30,27 @@ var EventsDisplay = React.createClass({displayName: "EventsDisplay",
   render: function() {
     return (
       React.createElement("div", null, 
-      React.createElement("table", null, 
-        React.createElement("tbody", null, 
-          events
-        )
-      ), 
+
+      events, 
       React.createElement("a", {
         style: {"display": noMoreEvents() ? "none" : "block"}, 
         className: "load-more", 
         onClick: this.nextPage}, 
         "Load more"
+      ), 
+      React.createElement("div", {
+        style: {"display": noMoreEvents() ? "block" : "none"}, 
+        className: "no-more-events"}, 
+        "(No more events)"
       )
+      
       )
     );
   }
 });
 
 var condenseEvent = function(event) {
-  var fmt = "ddd, MMM D h:mm A"
+  var fmt = "ddd, MMM D h:mm A";
   return (
     React.createElement(EventTableEntry, {
       eventName: event.name.text, 
@@ -62,7 +61,7 @@ var condenseEvent = function(event) {
 }
 
 var noMoreEvents = function() {
-  return pageCount >= page;
+  return pageCount === 0 || pageCount >= page;
 }
 
 
@@ -70,6 +69,7 @@ var getEvents = function(APIcall, page) {
   recordAPIcall = APIcall;
   $.get(APIcall + "&page=" + page,
   function(response) {
+    console.log(response);
     pageCount = response.pagination.page_count;
     events = events.concat(response.events.map(condenseEvent));
     renderEventsDisplay();
@@ -170,18 +170,9 @@ var token = "5UTR4NCSQASRGEP5ALUO";
 
 Locator.renderLocator();
 
-// Attempt to get user's location automatically
-if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(function(position) {
-    defaultLat = position.coords.latitude;
-    defaultLong = position.coords.longitude;
-  });
-}
-
 // Returns true if str represents a positive integer, false otherwise
 var isPositiveInteger = function(str) {
-  var n = ~~Number(str);
-  return String(n) === str && n > 0;
+  return /^[1-9]\d*$/.test(str);
 }
 
 // Constructs the Eventbrite API call

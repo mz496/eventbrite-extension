@@ -9,6 +9,8 @@
   },
   "permissions": [
     "geolocation",
+    "https://maps.googleapis.com/",
+    "https://www.eventbriteapi.com/"
   ],
-  "content_security_policy": "script-src 'self' https://maps.googleapis.com; object-src 'self'"
+  "content_security_policy": "script-src 'self' https://maps.googleapis.com https://www.eventbriteapi.com; object-src 'self'"
 }
