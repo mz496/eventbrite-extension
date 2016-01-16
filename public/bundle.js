@@ -12,7 +12,8 @@ var EventTableEntry = React.createClass({displayName: "EventTableEntry",
   },
   render: function() {
     return (
-      React.createElement("a", {href: this.props.url, onClick: this.linkClick}, 
+      React.createElement("a", {className: "event-entry", 
+        onClick: this.linkClick}, 
         React.createElement("div", null, 
         React.createElement("div", {className: "event-time"}, 
           this.props.timeRange
@@ -26,10 +27,6 @@ var EventTableEntry = React.createClass({displayName: "EventTableEntry",
   }
 });
 
-$("a").click(function() {
-  console.log("AAAAA");
-})
-
 var EventsDisplay = React.createClass({displayName: "EventsDisplay",
   nextPage: function() {
     page += 1;
@@ -38,7 +35,6 @@ var EventsDisplay = React.createClass({displayName: "EventsDisplay",
   render: function() {
     return (
       React.createElement("div", null, 
-
       events, 
       React.createElement("a", {
         style: {"display": noMoreEvents() ? "none" : "block"}, 

@@ -49,13 +49,14 @@ input {
 
 
 
-table a {
+.event-entry {
   display: block;
   padding: 5px;
   text-decoration: none;
 }
 
-table a:hover {
+.event-entry:hover {
+  cursor: pointer;
   background-color: rgba(0,0,0,0.1);
 }
 

@@ -1,17 +1,27 @@
+/* events_display.jsx
+ * Creates the list of events in range as a result of the API call
+ */
+
+// The default current page
 var page = 1;
+// The default page count
 var pageCount = 1;
+// The global event array we use to store API results
 var events = [];
+// The variable saving the API URL for future queries to other pages
 var recordAPIcall = "";
 
 
 
-var EventTableEntry = React.createClass({
+// A single event row in the output
+var EventEntry = React.createClass({
   linkClick: function() {
     chrome.tabs.create({ url: this.props.url });
   },
   render: function() {
     return (
-      <a href={this.props.url} onClick={this.linkClick}>
+      <a className="event-entry"
+        onClick={this.linkClick}>
         <div>
         <div className="event-time">
           {this.props.timeRange}
@@ -25,6 +35,7 @@ var EventTableEntry = React.createClass({
   }
 });
 
+// The container for all the EventEntry's
 var EventsDisplay = React.createClass({
   nextPage: function() {
     page += 1;
@@ -33,7 +44,6 @@ var EventsDisplay = React.createClass({
   render: function() {
     return (
       <div>
-
       {events}
       <a
         style={{"display": noMoreEvents() ? "none" : "block"}}
@@ -52,10 +62,13 @@ var EventsDisplay = React.createClass({
   }
 });
 
+/* Mapping function that takes in an API response and returns an EventEntry
+ * using only the parameters we need from the event
+ */
 var condenseEvent = function(event) {
   var fmt = "ddd, MMM D h:mm A";
   return (
-    <EventTableEntry
+    <EventEntry
       eventName={event.name.text}
       url={event.url}
       timeRange={moment(event.start.local).format(fmt)}
@@ -63,11 +76,16 @@ var condenseEvent = function(event) {
   );
 }
 
+/* Returns true if there are no more events to show (either we ran out
+ * or the response was empty)
+ */
 var noMoreEvents = function() {
   return pageCount === 0 || pageCount >= page;
 }
 
 
+
+// Get the events from Eventbrite API
 var getEvents = function(APIcall, page) {
   recordAPIcall = APIcall;
   $.get(APIcall + "&page=" + page,
@@ -86,6 +104,9 @@ var renderEventsDisplay = function() {
   );
 };
 
+/* Reset variables to their original values to start anew for each update
+ * to the position/radius
+ */
 var flushValues = function() {
   page = 1;
   pageCount = 1;
