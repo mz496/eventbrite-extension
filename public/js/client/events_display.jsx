@@ -6,17 +6,21 @@ var recordAPIcall = "";
 
 
 var EventTableEntry = React.createClass({
+  linkClick: function() {
+    chrome.tabs.create({ url: this.props.url });
+  },
   render: function() {
     return (
+      <a href={this.props.url} onClick={this.linkClick}>
         <div>
-        <span className="event-time">
+        <div className="event-time">
           {this.props.timeRange}
-        </span>
-        <br />
-        <a href={this.props.url} className="event-title">
-          {this.props.eventName}
-        </a>
         </div>
+        <div className="event-title">
+          {this.props.eventName}
+        </div>
+        </div>
+      </a>
     );
   }
 });

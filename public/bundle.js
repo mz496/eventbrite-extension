@@ -7,20 +7,28 @@ var recordAPIcall = "";
 
 
 var EventTableEntry = React.createClass({displayName: "EventTableEntry",
+  linkClick: function() {
+    chrome.tabs.create({ url: this.props.url });
+  },
   render: function() {
     return (
+      React.createElement("a", {href: this.props.url, onClick: this.linkClick}, 
         React.createElement("div", null, 
-        React.createElement("span", {className: "event-time"}, 
+        React.createElement("div", {className: "event-time"}, 
           this.props.timeRange
         ), 
-        React.createElement("br", null), 
-        React.createElement("a", {href: this.props.url, className: "event-title"}, 
+        React.createElement("div", {className: "event-title"}, 
           this.props.eventName
         )
         )
+      )
     );
   }
 });
+
+$("a").click(function() {
+  console.log("AAAAA");
+})
 
 var EventsDisplay = React.createClass({displayName: "EventsDisplay",
   nextPage: function() {
