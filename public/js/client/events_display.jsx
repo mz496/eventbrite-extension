@@ -13,6 +13,8 @@ var recordAPIcall = "";
 // Eventbrite API key
 var token = "5UTR4NCSQASRGEP5ALUO";
 
+var eventsLoadingID = "events-loading-overlay";
+
 
 
 // A single event row in the output
@@ -61,7 +63,7 @@ var EventsDisplay = React.createClass({
         (No more events)
       </div>
 
-      <div id="events-loading-overlay">
+      <div id={eventsLoadingID}>
       </div>
       
       </div>
@@ -90,19 +92,18 @@ var noMoreEvents = function() {
   return pageCount === 0 || pageCount >= page;
 }
 
+// Show and hide an overlay over the events list
 var showLoadingOverlay = function() {
-  console.log("SHOW");
-  $("#events-loading-overlay").css("display","block");
+  $("#" + eventsLoadingID).css("display","block");
 }
 var hideLoadingOverlay = function() {
-  console.log("HIDE");
-  $("#events-loading-overlay").css("display","none");
+  $("#" + eventsLoadingID).css("display","none");
 }
 
 
 
 
-// Get the events from Eventbrite API
+// Get the events from Eventbrite API by parameters
 var getEvents = function(latitude, longitude, radius, timeframe, page) {
   var APIcall = "https://www.eventbriteapi.com/v3/events/search/?" +
     "&popular=on" +
@@ -116,6 +117,7 @@ var getEvents = function(latitude, longitude, radius, timeframe, page) {
   getEventsByAPIcall(APIcall, page);
 }
 
+// Make API call based on what we already have, but with a different page #
 var getEventsByAPIcall = function(APIcall, page) {
   showLoadingOverlay();
   $.get(APIcall + "&page=" + page,
@@ -143,6 +145,8 @@ var flushValues = function() {
   events = [];
   recordAPIcall = "";
 }
+
+
 
 // Expose the following functions to render and refresh the events display
 module.exports = EventsDisplay;

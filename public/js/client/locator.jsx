@@ -6,16 +6,13 @@ var EventsDisplay = require("./events_display.jsx");
 
 var pickerRadiusID = "picker-radius";
 var pickerAddressID = "picker-address";
-//var timeframe = "this_weekend";
+var timeframeSelectID = "timeframe-select";
+var pickerID = "picker";
 
 
 var Locator = React.createClass({
   timeframeChanged: function(e) {
-    var selected = Array.prototype.filter.
-    call(e.target.options, i => i.selected).
-    map(i => i.value)[0];
-
-    var pickerState = $("#picker").locationpicker("map");
+    var pickerState = $("#" + pickerID).locationpicker("map");
     var currentLatitude = pickerState.location.latitude;
     var currentLongitude = pickerState.location.longitude;
     var currentRadius = pickerState.map.radius;
@@ -36,7 +33,7 @@ var Locator = React.createClass({
         <p>Find popular events happening {/*
 
         */}<select
-          id="timeframe"
+          id={timeframeSelectID}
           defaultValue="this_weekend"
           onChange={this.timeframeChanged}>
             <option value="today">today</option>
@@ -60,7 +57,7 @@ var Locator = React.createClass({
           size="40"
           id={pickerAddressID}/></p>
 
-        <div id="picker"></div>
+        <div id={pickerID}></div>
       </div>
     );
   }
@@ -75,9 +72,10 @@ var renderLocator = function() {
 
 var getSelectedTimeframe = function() {
   return Array.prototype.filter.
-    call(jQuery.makeArray($("select#timeframe option")), i => i.selected).
+    call(jQuery.makeArray($("select#" + timeframeSelectID + " option")), i => i.selected).
     map(i => i.value)[0];
 }
+
 
 
 // Expose the following variables for initializing and rendering from main

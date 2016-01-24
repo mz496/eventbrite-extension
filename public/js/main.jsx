@@ -37,8 +37,6 @@ $("#picker").locationpicker({
   },
   enableAutocomplete: true,
   onchanged: function(currentLocation, radius, isMarkerDropped) {
-    //console.log($(this));
-    //console.log($(this).locationpicker("map"));
     if (isPositiveInteger(radius)) {
       EventsDisplay.flushValues();
       EventsDisplay.getEvents(

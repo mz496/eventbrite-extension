@@ -14,6 +14,8 @@ var recordAPIcall = "";
 // Eventbrite API key
 var token = "5UTR4NCSQASRGEP5ALUO";
 
+var eventsLoadingID = "events-loading-overlay";
+
 
 
 // A single event row in the output
@@ -62,7 +64,7 @@ var EventsDisplay = React.createClass({displayName: "EventsDisplay",
         "(No more events)"
       ), 
 
-      React.createElement("div", {id: "events-loading-overlay"}
+      React.createElement("div", {id: eventsLoadingID}
       )
       
       )
@@ -91,19 +93,18 @@ var noMoreEvents = function() {
   return pageCount === 0 || pageCount >= page;
 }
 
+// Show and hide an overlay over the events list
 var showLoadingOverlay = function() {
-  console.log("SHOW");
-  $("#events-loading-overlay").css("display","block");
+  $("#" + eventsLoadingID).css("display","block");
 }
 var hideLoadingOverlay = function() {
-  console.log("HIDE");
-  $("#events-loading-overlay").css("display","none");
+  $("#" + eventsLoadingID).css("display","none");
 }
 
 
 
 
-// Get the events from Eventbrite API
+// Get the events from Eventbrite API by parameters
 var getEvents = function(latitude, longitude, radius, timeframe, page) {
   var APIcall = "https://www.eventbriteapi.com/v3/events/search/?" +
     "&popular=on" +
@@ -117,6 +118,7 @@ var getEvents = function(latitude, longitude, radius, timeframe, page) {
   getEventsByAPIcall(APIcall, page);
 }
 
+// Make API call based on what we already have, but with a different page #
 var getEventsByAPIcall = function(APIcall, page) {
   showLoadingOverlay();
   $.get(APIcall + "&page=" + page,
@@ -145,6 +147,8 @@ var flushValues = function() {
   recordAPIcall = "";
 }
 
+
+
 // Expose the following functions to render and refresh the events display
 module.exports = EventsDisplay;
 module.exports.getEvents = getEvents;
@@ -159,16 +163,13 @@ var EventsDisplay = require("./events_display.jsx");
 
 var pickerRadiusID = "picker-radius";
 var pickerAddressID = "picker-address";
-//var timeframe = "this_weekend";
+var timeframeSelectID = "timeframe-select";
+var pickerID = "picker";
 
 
 var Locator = React.createClass({displayName: "Locator",
   timeframeChanged: function(e) {
-    var selected = Array.prototype.filter.
-    call(e.target.options, i => i.selected).
-    map(i => i.value)[0];
-
-    var pickerState = $("#picker").locationpicker("map");
+    var pickerState = $("#" + pickerID).locationpicker("map");
     var currentLatitude = pickerState.location.latitude;
     var currentLongitude = pickerState.location.longitude;
     var currentRadius = pickerState.map.radius;
@@ -189,7 +190,7 @@ var Locator = React.createClass({displayName: "Locator",
         React.createElement("p", null, "Find popular events happening ", /*
 
         */React.createElement("select", {
-          id: "timeframe", 
+          id: timeframeSelectID, 
           defaultValue: "this_weekend", 
           onChange: this.timeframeChanged}, 
             React.createElement("option", {value: "today"}, "today"), 
@@ -213,7 +214,7 @@ var Locator = React.createClass({displayName: "Locator",
           size: "40", 
           id: pickerAddressID})), 
 
-        React.createElement("div", {id: "picker"})
+        React.createElement("div", {id: pickerID})
       )
     );
   }
@@ -228,9 +229,10 @@ var renderLocator = function() {
 
 var getSelectedTimeframe = function() {
   return Array.prototype.filter.
-    call(jQuery.makeArray($("select#timeframe option")), i => i.selected).
+    call(jQuery.makeArray($("select#" + timeframeSelectID + " option")), i => i.selected).
     map(i => i.value)[0];
 }
+
 
 
 // Expose the following variables for initializing and rendering from main
@@ -280,8 +282,6 @@ $("#picker").locationpicker({
   },
   enableAutocomplete: true,
   onchanged: function(currentLocation, radius, isMarkerDropped) {
-    //console.log($(this));
-    //console.log($(this).locationpicker("map"));
     if (isPositiveInteger(radius)) {
       EventsDisplay.flushValues();
       EventsDisplay.getEvents(
