@@ -73,8 +73,28 @@ input {
 }
 
 #events-display {
+  position: relative;
   border: 1px solid rgba(0,0,0,0.2);
   width: 100%;
   height: 250px;
   overflow-y: scroll;
+}
+
+#events-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255,255,255,0.5);
+  color: rgba(0,0,0,0.8);
+}
+
+select {
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
+  box-shadow: none;
+  font-size: 14px;
+  background-color: #F8F8FA;
+
 }

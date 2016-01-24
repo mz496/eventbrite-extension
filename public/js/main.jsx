@@ -9,37 +9,22 @@ var EventsDisplay = require("./client/events_display.jsx");
 
 
 
-// 3-mile radius around Eventbrite HQ in SF
-
-var defaultLat = 37.782380;
-var defaultLong = -122.405225;
-var defaultRadius = 3;
-var defaultZoom = 12;
-
-var token = "5UTR4NCSQASRGEP5ALUO";
-
-
 
 /* Render the location picker, initialize its settings, and also render
  * the events display
  */
 
 Locator.renderLocator();
+// 3-mile radius around Eventbrite HQ in SF
+var defaultLat = 37.782380;
+var defaultLong = -122.405225;
+var defaultRadius = 3;
+var defaultZoom = 12;
+var defaultTimeframe = Locator.getSelectedTimeframe();
 
 // Returns true if str represents a positive integer, false otherwise
 var isPositiveInteger = function(str) {
   return /^[1-9]\d*$/.test(str);
-}
-
-// Constructs the Eventbrite API call
-var getAPIcall = function(latitude, longitude, radius) {
-  return "https://www.eventbriteapi.com/v3/events/search/?" +
-    "&popular=on" +
-    "&location.latitude=" + latitude +
-    "&location.longitude=" + longitude +
-    "&location.within=" + radius + "mi" +
-    "&start_date.keyword=this_weekend" +
-    "&token=" + token;
 }
 
 $("#picker").locationpicker({
@@ -52,18 +37,23 @@ $("#picker").locationpicker({
   },
   enableAutocomplete: true,
   onchanged: function(currentLocation, radius, isMarkerDropped) {
+    //console.log($(this));
+    //console.log($(this).locationpicker("map"));
     if (isPositiveInteger(radius)) {
       EventsDisplay.flushValues();
       EventsDisplay.getEvents(
-        getAPIcall(
-          currentLocation.latitude,
-          currentLocation.longitude,
-          radius),
+        currentLocation.latitude,
+        currentLocation.longitude,
+        radius,
+        Locator.getSelectedTimeframe(),
         1);
     }
   }
 });
 
 EventsDisplay.getEvents(
-  getAPIcall(defaultLat, defaultLong, defaultRadius),
+  defaultLat,
+  defaultLong,
+  defaultRadius,
+  defaultTimeframe,
   1);

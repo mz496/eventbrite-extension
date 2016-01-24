@@ -8,8 +8,10 @@ var page = 1;
 var pageCount = 1;
 // The global event array we use to store API results
 var events = [];
-// The variable saving the API URL for future queries to other pages
+// Saving API call string for future queries
 var recordAPIcall = "";
+// Eventbrite API key
+var token = "5UTR4NCSQASRGEP5ALUO";
 
 
 
@@ -39,22 +41,27 @@ var EventEntry = React.createClass({
 var EventsDisplay = React.createClass({
   nextPage: function() {
     page += 1;
-    getEvents(recordAPIcall, page);
+    getEventsByAPIcall(recordAPIcall, page);
   },
   render: function() {
     return (
       <div>
       {events}
+
       <a
         style={{"display": noMoreEvents() ? "none" : "block"}}
         className="load-more"
         onClick={this.nextPage}>
         Load more
       </a>
+
       <div
         style={{"display": noMoreEvents() ? "block" : "none"}}
         className="no-more-events">
         (No more events)
+      </div>
+
+      <div id="events-loading-overlay">
       </div>
       
       </div>
@@ -83,17 +90,40 @@ var noMoreEvents = function() {
   return pageCount === 0 || pageCount >= page;
 }
 
+var showLoadingOverlay = function() {
+  console.log("SHOW");
+  $("#events-loading-overlay").css("display","block");
+}
+var hideLoadingOverlay = function() {
+  console.log("HIDE");
+  $("#events-loading-overlay").css("display","none");
+}
+
+
 
 
 // Get the events from Eventbrite API
-var getEvents = function(APIcall, page) {
+var getEvents = function(latitude, longitude, radius, timeframe, page) {
+  var APIcall = "https://www.eventbriteapi.com/v3/events/search/?" +
+    "&popular=on" +
+    "&location.latitude=" + latitude +
+    "&location.longitude=" + longitude +
+    "&location.within=" + radius + "mi" +
+    "&start_date.keyword=" + timeframe +
+    "&token=" + token;
+
   recordAPIcall = APIcall;
+  getEventsByAPIcall(APIcall, page);
+}
+
+var getEventsByAPIcall = function(APIcall, page) {
+  showLoadingOverlay();
   $.get(APIcall + "&page=" + page,
   function(response) {
-    console.log(response);
     pageCount = response.pagination.page_count;
     events = events.concat(response.events.map(condenseEvent));
     renderEventsDisplay();
+    hideLoadingOverlay();
   });
 };
 
